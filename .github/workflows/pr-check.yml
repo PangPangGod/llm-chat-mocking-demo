@@ -6,13 +6,9 @@ name: "Python PR Check with uv & pytest"
 on:
   push:
     branches:
-      - 
-  pull_request_target: 
-  types: [opened, ready_for_review, reopened]
-  branches:
-    - dev
+      - dev
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, ready_for_review]
     branches:
       - dev
 
