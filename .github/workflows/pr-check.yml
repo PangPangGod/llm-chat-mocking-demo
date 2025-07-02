@@ -1,5 +1,6 @@
 # Braincrew ver.250701
 # .github/workflows/pr-check.yml
+# https://docs.astral.sh/uv/guides/integration/github/
 
 name: "Python PR Check with uv & pytest"
 on:
@@ -14,23 +15,24 @@ jobs:
   run-tests:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: "Set up Python"
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version-file: ".python-version"
 
       - name: Install dependencies with uv
         run: |
-          pip install uv
           if [ -f "uv.lock" ]; then
             uv sync
           else
             echo "uv.lock not found, try running uv install with requirements.txt"
             uv pip sync requirements.txt
           fi
-
+      
       - name: "Run tests with Pytest"
-        run: pytest
+        run: uv run pytest
