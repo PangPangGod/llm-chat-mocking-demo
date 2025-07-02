@@ -6,7 +6,11 @@ name: "Python PR Check with uv & pytest"
 on:
   push:
     branches:
-      - dev
+      - 
+  pull_request_target: 
+  types: [opened, ready_for_review, reopened]
+  branches:
+    - dev
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
@@ -15,6 +19,7 @@ on:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
 
@@ -39,16 +44,12 @@ jobs:
         run: uv run pytest
         
   assign-reviewer:
+    needs: run-tests
     runs-on: ubuntu-latest
+    if: github.event.action == 'opened' || github.event.action == 'ready_for_review' || github.event.action == 'reopened'
     permissions:
-      contents: read
       pull-requests: write
     steps:
-      - name: Checkout        
-        uses: actions/checkout@v4
-
-      - name: Assign random reviewers to PR
-        uses: uesteibar/reviewer-lottery@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Assign random reviewers
+        uses: kentaro-m/auto-assign-action@v2.0.0
   
