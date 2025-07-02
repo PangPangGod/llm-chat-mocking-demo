@@ -1,3 +1,4 @@
+addAssignees: author
 addReviewres: true
 numberOfReviewers: 1
 useReviewGroups: true
@@ -5,5 +6,3 @@ reviewGroups:
   braincrew:
     - hwangisace
     - pangpanggod
-addAssignees: author
-useAssigneeGroups: false
