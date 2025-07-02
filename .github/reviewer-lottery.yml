@@ -1,7 +1,0 @@
-groups:
-  - name: "BrainCrew"
-    reviewers: 1
-    internal_reviewers: 1
-    usernames:
-      - pangpanggod
-      - hwangisace
