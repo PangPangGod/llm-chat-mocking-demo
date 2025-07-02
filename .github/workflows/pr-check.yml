@@ -1,0 +1,33 @@
+# Braincrew ver.250701
+# .github/workflows/pr-check.yml
+
+name: "Python PR Check with uv & pytest"
+on:
+  [push, pull_request]:
+    types: [opened]
+    branches:
+      - dev
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies with uv
+        run: |
+          pip install uv
+          if [ -f "uv.lock" ]; then
+            uv sync
+          else
+            echo "uv.lock not found, try running uv install with requirements.txt"
+            uv pip sync requirements.txt
+          fi
+
+      - name: "Run tests with Pytest"
+        run: pytest
