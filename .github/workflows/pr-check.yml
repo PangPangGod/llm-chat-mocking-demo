@@ -3,7 +3,10 @@
 
 name: "Python PR Check with uv & pytest"
 on:
-  [push, pull_request]:
+  push:
+    branches:
+      - dev
+  pull_request:
     types: [opened]
     branches:
       - dev
